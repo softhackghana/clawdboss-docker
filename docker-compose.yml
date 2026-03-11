@@ -1,0 +1,35 @@
+services:
+  clawdboss:
+    build: .
+    container_name: clawdboss
+    restart: unless-stopped
+    ports:
+      - "18789:18789"
+    volumes:
+      # Persist OpenClaw config, workspace, and state across container recreations
+      - openclaw-config:/home/openclaw/.openclaw
+    env_file:
+      - .env
+    environment:
+      - CLAWDBOSS_MODE=${CLAWDBOSS_MODE:-auto}
+    stdin_open: true   # Required for interactive setup
+    tty: true          # Required for interactive setup
+
+  # Optional: ClawSuite web console
+  # Uncomment to enable the browser-based management UI
+  #
+  # clawsuite:
+  #   image: ghcr.io/nanoflow-io/clawsuite:latest
+  #   container_name: clawsuite
+  #   restart: unless-stopped
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - GATEWAY_URL=http://clawdboss:18789
+  #     - GATEWAY_AUTH_TOKEN=${GATEWAY_AUTH_TOKEN:-}
+  #   depends_on:
+  #     - clawdboss
+
+volumes:
+  openclaw-config:
+    name: clawdboss-openclaw-config
