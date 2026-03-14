@@ -26,7 +26,7 @@ RUN git clone https://github.com/NanoFlow-io/clawdboss.git /opt/clawdboss \
 
 # Create non-root user (uid 1000 matches default host user)
 RUN groupadd -g 1001 openclaw \
-    && useradd -m -u 1000 -g openclaw -s /bin/bash openclaw \
+    && useradd -m -u 1001 -g openclaw -s /bin/bash openclaw \
     && mkdir -p /home/openclaw/.openclaw \
     && chown -R openclaw:openclaw /home/openclaw
 
